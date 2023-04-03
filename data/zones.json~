@@ -1,0 +1,114 @@
+[
+    {
+        "id": 1,
+        "diameter": 10.0,
+        "max_fill_pct": 1.0,
+        "position": [6.0, 2.0, 540.0],
+        "sample_path": "sounds/lofi.wav"
+    },
+    {
+        "id": 2,
+        "diameter": 15.0,
+        "max_fill_pct": 100.0,
+        "position": [12.0, 40.0, 20.0],
+        "sample_path": "sounds/output.wav"
+    },
+    {
+        "id": 3,
+        "diameter": 15.0,
+        "max_fill_pct": 100.0,
+        "position": [12.0, 40.0, 20.0],
+        "sample_path": "sounds/feel.wav"
+    },
+    {
+        "id": 4,
+        "diameter": 15.0,
+        "max_fill_pct": 100.0,
+        "position": [12.0, 40.0, 20.0],
+        "sample_path": "sounds/feel.wav"
+    },
+    {
+        "id": 5,
+        "diameter": 15.0,
+        "max_fill_pct": 100.0,
+        "position": [12.0, 40.0, 20.0],
+        "sample_path": "sounds/feel.wav"
+    },
+    {
+        "id": 6,
+        "diameter": 15.0,
+        "max_fill_pct": 100.0,
+        "position": [12.0, 40.0, 20.0],
+        "sample_path": "sounds/feel.wav"
+    },
+    {
+        "id": 7,
+        "diameter": 15.0,
+        "max_fill_pct": 100.0,
+        "position": [12.0, 40.0, 20.0],
+        "sample_path": "sounds/feel.wav"
+    },
+    {
+        "id": 8,
+        "diameter": 15.0,
+        "max_fill_pct": 100.0,
+        "position": [12.0, 40.0, 20.0],
+        "sample_path": "sounds/feel.wav"
+    },
+    {
+        "id": 9,
+        "diameter": 15.0,
+        "max_fill_pct": 100.0,
+        "position": [12.0, 40.0, 20.0],
+        "sample_path": "sounds/feel.wav"
+    },
+    {
+        "id": 10,
+        "diameter": 15.0,
+        "max_fill_pct": 100.0,
+        "position": [12.0, 40.0, 20.0],
+        "sample_path": "sounds/feel.wav"
+    },
+    {
+        "id": 11,
+        "diameter": 15.0,
+        "max_fill_pct": 100.0,
+        "position": [12.0, 40.0, 20.0],
+        "sample_path": "sounds/feel.wav"
+    },
+    {
+        "id": 12,
+        "diameter": 15.0,
+        "max_fill_pct": 100.0,
+        "position": [12.0, 40.0, 20.0],
+        "sample_path": "sounds/feel.wav"
+    },
+    {
+        "id": 13,
+        "diameter": 15.0,
+        "max_fill_pct": 100.0,
+        "position": [12.0, 40.0, 20.0],
+        "sample_path": "sounds/feel.wav"
+    },
+    {
+        "id": 14,
+        "diameter": 15.0,
+        "max_fill_pct": 100.0,
+        "position": [12.0, 40.0, 20.0],
+        "sample_path": "sounds/feel.wav"
+    },
+    {
+        "id": 15,
+        "diameter": 15.0,
+        "max_fill_pct": 100.0,
+        "position": [12.0, 40.0, 20.0],
+        "sample_path": "sounds/feel.wav"
+    },
+    {
+        "id": 16,
+        "diameter": 15.0,
+        "max_fill_pct": 100.0,
+        "position": [12.0, 40.0, 20.0],
+        "sample_path": "sounds/feel.wav"
+    }
+]
