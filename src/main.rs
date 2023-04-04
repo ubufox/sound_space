@@ -5,6 +5,8 @@ use std::fs::File;
 use std::io::BufReader;
 use std::sync::{Arc, Mutex};
 
+use sound_space::mock_zed::ZedProcessor;
+use sound_space::models::space::Space;
 use sound_space::models::zone::Zone;
 
 fn main() {
@@ -23,7 +25,7 @@ fn main() {
         acc
     });
 
-    let starting_volume: f32 = 1.0;
+    let starting_volume: f32 = 0.0;
     let keys: Vec<u8> = zones.clone().iter().fold(vec![], |mut acc, z| {
         acc.push(z.id);
         acc
@@ -37,30 +39,30 @@ fn main() {
     let volume_arc = Arc::new(Mutex::new(volumes));
     let thread_volume = volume_arc.clone();
 
+    let interactive_spaces: Vec<Space> = zones
+        .clone()
+        .iter()
+        .map(|z| Space::build_from_zone(z))
+        .collect();
+
     // ###### SET VOLUMES #######
+    // IN: Vec<Spaces>
+    // OUT: Recurring updates to a fill_data RwLock<HashMap<u8, f32>>
     std::thread::spawn(move || {
-        let mut is_loud = true;
+        println!("number of spaces {:?}", interactive_spaces.iter().len());
+
+        let zed = ZedProcessor::new();
 
         loop {
-            println!("loud state -> {is_loud}");
-
             match thread_volume.lock() {
                 Ok(mut v_hash) => {
-                    let mut updated_hash: HashMap<u8, f32> = HashMap::new();
+                    // TODO: ensure the values coming from the zed get_fill function
+                    //     map to the volume ranges I want. may need to wrap this function
+                    //     in an audio transformation function
+                    *v_hash = zed.get_fills(interactive_spaces.clone());
+                    println!("updated hash with fills");
 
-                    if is_loud {
-                        for (k, _v) in v_hash.clone().into_iter() {
-                            updated_hash.insert(k, 2.0);
-                        }
-                    } else {
-                        for (k, _v) in v_hash.clone().into_iter() {
-                            updated_hash.insert(k, 0.4);
-                        }
-                    }
-
-                    *v_hash = updated_hash;
-
-                    is_loud = !is_loud;
+                    drop(v_hash);
                     std::thread::sleep(std::time::Duration::from_secs_f32(7.5));
                 }
                 Err(_) => {
@@ -71,19 +73,24 @@ fn main() {
     });
 
     // ###### UPDATE VOLUMES #######
-    loop {
+    std::thread::spawn(move || loop {
         match volume_arc.lock() {
             Ok(v_hash) => {
                 for (k, v) in v_hash.clone().into_iter() {
                     let s = sinks.get(&k).unwrap();
+
                     s.set_volume(v);
                 }
+
+                drop(v_hash);
             }
             Err(_) => {}
         };
 
         std::thread::sleep(std::time::Duration::from_millis(2));
-    }
+    });
+
+    loop {}
 }
 
 fn read_zone_data() -> Result<Vec<Zone>> {
