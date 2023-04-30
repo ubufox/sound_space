@@ -63,7 +63,7 @@ fn main() {
                     println!("updated hash with fills");
 
                     drop(v_hash);
-                    std::thread::sleep(std::time::Duration::from_secs_f32(7.5));
+                    std::thread::sleep(std::time::Duration::from_millis(5));
                 }
                 Err(_) => {
                     std::thread::sleep(std::time::Duration::from_millis(1));
