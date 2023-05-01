@@ -49,19 +49,12 @@ fn main() {
     // IN: Vec<Spaces>
     // OUT: Recurring updates to a fill_data RwLock<HashMap<u8, f32>>
     std::thread::spawn(move || {
-        println!("number of spaces {:?}", interactive_spaces.iter().len());
-
         let zed = ZedProcessor::new();
 
         loop {
             match thread_volume.lock() {
                 Ok(mut v_hash) => {
-                    // TODO: ensure the values coming from the zed get_fill function
-                    //     map to the volume ranges I want. may need to wrap this function
-                    //     in an audio transformation function
                     *v_hash = zed.get_fills(interactive_spaces.clone());
-                    println!("updated hash with fills");
-
                     drop(v_hash);
                     std::thread::sleep(std::time::Duration::from_millis(5));
                 }
@@ -87,7 +80,7 @@ fn main() {
             Err(_) => {}
         };
 
-        std::thread::sleep(std::time::Duration::from_millis(2));
+        std::thread::sleep(std::time::Duration::from_millis(5));
     });
 
     loop {}
