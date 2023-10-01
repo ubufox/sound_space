@@ -88,7 +88,7 @@ fn main() {
 
 fn read_zone_data() -> Result<Vec<Zone>> {
     let zone_data =
-        std::fs::read_to_string("data/zones.json").expect("Failed to read zone data file");
+        std::fs::read_to_string("data/zones_two.json").expect("Failed to read zone data file");
     let zones: Vec<Zone> = serde_json::from_str(&zone_data)?;
 
     Ok(zones)

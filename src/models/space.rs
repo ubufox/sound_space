@@ -41,11 +41,11 @@ impl Space {
 
     pub fn is_in_space(&self, point: (f32, f32, f32)) -> bool {
         let distance = get_distance((self.x, self.y, self.z), point);
-        if point.0 == 360.0 && point.1 == 202.0 {
-            println!("distance: {distance}");
-        } else {
-            ();
-        }
+        // if point.0 == 360.0 && point.1 == 202.0 {
+        //     println!("distance: {distance}");
+        // } else {
+        //     ();
+        // }
 
         distance * 2.0 <= self.diameter
     }
@@ -73,13 +73,13 @@ fn get_distance(pt_a: (f32, f32, f32), pt_b: (f32, f32, f32)) -> f32 {
     let (x_a, y_a, z_a) = pt_a;
     let (x_b, y_b, z_b) = pt_b;
 
-    if x_b == 360.0 && y_b == 202.0 {
-        println!("space x: {x_a}, point x: {x_b}");
-        println!("space y: {y_a}, point y: {y_b}");
-        println!("space z: {z_a}, point z: {z_b}");
-    } else {
-        ()
-    }
+    // if x_b == 360.0 && y_b == 202.0 {
+    //     println!("space x: {x_a}, point x: {x_b}");
+    //     println!("space y: {y_a}, point y: {y_b}");
+    //     println!("space z: {z_a}, point z: {z_b}");
+    // } else {
+    //     ()
+    // }
 
     ((x_a - x_b).powi(2) + (y_a - y_b).powi(2) + (z_a - z_b).powi(2)).sqrt()
 }
