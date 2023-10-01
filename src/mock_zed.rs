@@ -4,7 +4,7 @@ use std::collections::HashMap;
 use crate::models::space::Space;
 use crate::models::zed_data::ZedData;
 
-const WIDTH: f32 = 720.0;
+const WIDTH: f32 = 180.0;
 const Z_MAX: f32 = 3.0;
 const Z_MIN: f32 = 0.5;
 const Z_PEAK: f32 = 1000.0;
@@ -19,17 +19,17 @@ impl ZedProcessor {
     }
 
     // ## call ZED.retreiveMeasure
-    fn get_point_cloud(&self) -> Vec<String> {
+    fn get_point_cloud(&self) -> Vec<f32> {
         let ctx = zmq::Context::new();
         let request = ctx.socket(zmq::REQ).unwrap();
 
         request.connect("tcp://127.0.0.1:5555").unwrap();
         request.send("1", 0).unwrap();
 
-        let msg = request.recv_bytes(0).unwrap();
-        let zed_data: ZedData = read_zed_data(&msg).unwrap();
+        let msg = request.recv_msg(0).unwrap();
+        let zed_data: ZedData = read_zed_data(&msg.as_str().unwrap()).unwrap();
 
-        zed_data.data         
+        zed_data.data
     }
 
     // IN: index and value
@@ -49,16 +49,11 @@ impl ZedProcessor {
         (x, y, z)
     }
 
-    fn get_z_f32(&self, val: &String) -> Option<f32> {
-        match val.trim().parse::<f32>() {
-            Ok(f) => {
-                if f.is_nan() || f.is_infinite() {
-                    None
-                } else {
-                    Some(f)
-                }
-            },
-            Err(_) => None,
+    fn get_z_f32(&self, val: f32) -> Option<f32> {
+        if val.is_nan() || val.is_infinite() {
+            None
+        } else {
+            Some(val)
         }
     }
 
@@ -76,7 +71,7 @@ impl ZedProcessor {
 
             for (idx, p) in pts.iter().enumerate() {
                 // get a 3D point (f32, f32, f32)
-                let pz = match self.get_z_f32(p) {
+                let pz = match self.get_z_f32(*p) {
                     Some(v) => v,
                     None => 1000000.0,
                 };
@@ -96,19 +91,21 @@ impl ZedProcessor {
     }
 }
 
-fn read_zed_data(zed_bytes: &Vec<u8>) -> Result<ZedData> {
-    let slice_end: usize = zed_bytes.iter().len();
-    let d: ZedData = serde_json::from_slice(&zed_bytes[0..slice_end]).expect("Failed to deserialize");
+fn read_zed_data(zed_bytes: &str) -> Result<ZedData> {
+    println!("zed bytes -> {:?}", zed_bytes);
+
+    // let slice_end: usize = zed_bytes.iter().len();
+    let d: ZedData = serde_json::from_str(&zed_bytes).expect("Failed to deserialize");
 
     d.show_res();
 
-    let z_a = d.get_z("360", "202");
+//    let z_a = d.get_z("360", "202");
 //     let z_b = d.get_z("0", "0");
 //     let z_c = d.get_z("719", "0");
 //     let z_d = d.get_z("0", "403");
 //     let z_e = d.get_z("719", "403");
 // 
-    println!("x: 360, y: 202, z: {:?}", z_a);
+//    println!("x: 360, y: 202, z: {:?}", z_a);
 //     println!("x: 0, y: 0, z: {:?}", z_b);
 //     println!("x: 719, y: 0, z: {:?}", z_c);
 //     println!("x: 0, y: 403, z: {:?}", z_d);

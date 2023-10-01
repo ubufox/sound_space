@@ -4,7 +4,7 @@ use std::collections::HashMap;
 #[derive(Deserialize, Clone)]
 pub struct ZedData {
     pub resolution: HashMap<String, u32>,
-    pub data: Vec<String>,
+    pub data: Vec<f32>,
 }
 
 impl ZedData {
@@ -15,9 +15,9 @@ impl ZedData {
         );
     }
 
-    pub fn get_z(&self, x: &str, y: &str) -> &str {
+    pub fn get_z(&self, x: &str, y: &str) -> f32 {
         let idx: usize = self.get_idx(x.trim().parse().unwrap(), y.trim().parse().unwrap()) as usize;
-        &self.data[idx]
+        self.data[idx]
     }
 
     fn get_idx(&self, x: u32, y: u32) -> u32 {
